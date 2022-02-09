@@ -39,5 +39,15 @@ router.post('/',(req, res) => {
     data: body
   }]);
 })
+/* Put se deben envir todos los campos, Patch, solo los que queremos actualizar */
+router.patch('/:id',(req, res) => {
+  const { id } = req.params
+  const body = req.body;
+  res.json([{
+    message: 'Updated',
+    data: body,
+    id: id
+  }]);
+})
 
 module.exports = router;
