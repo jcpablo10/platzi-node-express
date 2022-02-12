@@ -9,7 +9,7 @@ class ProductsService {
   }
 
   generate() {
-    const limit = 100;
+    const limit = 10;
     for (let index = 0; index < limit; index++) {
       this.products.push({
         id: faker.datatype.uuid(),
@@ -20,24 +20,48 @@ class ProductsService {
     }
   }
 
-  create() {
-
+  create( data ) {
+    const newProduct = {
+      id: faker.datatype.uuid(),
+      ...data
+    }
+    this.products.push( newProduct );
+    return newProduct;
   }
 
   find() {
     return this.products;
   }
 
-  findOne(id) {
+  findOne( id ) {
     return this.products.find(product => product.id === id )
   }
 
-  update() {
+  update( id, changes ) {
+    const idx = this.products.findIndex(product => product.id === id );
+    if (idx === -1) {
+      throw new Error('Product Not found');
+    }
+
+    const product = this.products[idx];
+    this.products[idx] = {
+      ...product,
+      ...changes
+    }
+
+    return this.products[idx];
 
   }
 
-  delete() {
+  delete(id) {
+    const idx = this.products.findIndex(product => product.id === id );
+    if (idx === -1) {
+      throw new Error('Product Not found');
+    }
 
+    this.products.splice(idx, 1);
+
+    return {id};
   }
 }
 

@@ -21,28 +21,23 @@ router.get('/:id', (req, res) => {
 
 router.post('/',(req, res) => {
   const body = req.body;
-  res.json([{
-    message: 'created',
-    data: body
-  }]);
+  const newProduct = service.create(body)
+  res
+    .status(201)
+    .json(newProduct);
 })
 /* Put se deben envir todos los campos, Patch, solo los que queremos actualizar */
 router.patch('/:id',(req, res) => {
   const { id } = req.params
   const body = req.body;
-  res.json([{
-    message: 'Updated',
-    data: body,
-    id: id
-  }]);
+  const product = service.update(id, body)
+  res.json(product);
 })
 
 router.delete('/:id',(req, res) => {
   const { id } = req.params;
-  res.json([{
-    message: 'Deleted',
-    id
-  }]);
+  const response = service.delete(id)
+  res.json(response);
 })
 
 module.exports = router;
