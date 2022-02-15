@@ -31,25 +31,25 @@ router.post('/', async (req, res) => {
     .json(newProduct);
 })
 /* Put se deben envir todos los campos, Patch, solo los que queremos actualizar */
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
     const body = req.body;
     const product = await service.update(id, body)
     res.json(product);
   } catch (error) {
-    res
-      .status(404)
-      .json({
-        message: error.message
-      });
+    next(error);
   }
 })
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const response = await service.delete(id)
-  res.json(response);
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const response = await service.delete(id)
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
 })
 
 module.exports = router;
