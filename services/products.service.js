@@ -38,7 +38,12 @@ class ProductsService {
   }
 
   async findOne( id ) {
+    const name = getName();
     return this.products.find(product => product.id === id )
+    // try {
+    // } catch (error) {
+
+    // }
   }
 
   async update( id, changes ) {

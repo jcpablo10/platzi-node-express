@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const routerApi = require('./routes')
+const routerApi = require('./routes');
+const { errorHandler, logErrors } = require('./middleware/error.handler.js');
 const port = 3000;
 app.use(express.json());
 
@@ -12,7 +13,12 @@ app.get('/nuevo-end-point', (req, res) => {
 });
 
 routerApi(app);
-app.listen(port, ()=> {
+
+/* Los midleware deben ir despues del router */
+app.use(logErrors);
+app.use(errorHandler);
+
+app.listen(port, () => {
   console.log('App running in http://localhost:3000');
 });
 
