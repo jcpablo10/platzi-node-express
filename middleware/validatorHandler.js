@@ -1,15 +1,16 @@
-const boom = require('@hapi/bom');
+const boom = require('@hapi/boom');
 
 function validatorHandler(schema, property) {
   return (req, res, next) => {
+    // reque [body || params || query]
     const data = req[property];
-    const {error} = schema.validate(data)
+    const { error } = schema.validate(data)
 
     if (error) {
       next(boom.badRequest(error))
     }
 
-    next()
+    next();
   }
 }
 

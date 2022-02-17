@@ -1,5 +1,7 @@
 const express = require('express');
 const ProductsService = require('../services/products.service');
+const validatorHandler = require('../middleware/validatorHandler');
+const { getProductSchema, createProductSchema, updateProductSchema } = require('../schemas/product.schema');
 
 const router = express.Router();
 const service = new ProductsService();
@@ -13,15 +15,18 @@ router.get('/filter', async (req, res) => {
   await res.json('Filter endopoint');
 });
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const product = await service.findOne(id)
-    res.json(product);
-  } catch (error) {
-    next(error);
+router.get('/:id',
+  validatorHandler(getProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const product = await service.findOne(id)
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.post('/', async (req, res) => {
   const body = req.body;

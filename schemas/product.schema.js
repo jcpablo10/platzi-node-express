@@ -15,7 +15,7 @@ const updateProductSchema = Joi.object({
 });
 
 const getProductSchema = Joi.object({
-  id: id.required
+  id: id.required(),
 });
 
 module.exports = {
